@@ -9,9 +9,11 @@ ENV GCC_HOST_COMPILER_PATH=/usr/bin/gcc
 ENV CC_OPT_FLAGS=-Wno-sign-compare
 ENV TF_SET_ANDROID_WORKSPACE=0
 
-RUN wget https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.10.0.zip -O tensorflow.zip && \
+ARG TF_VERSION=2.10.0
+
+RUN wget https://github.com/tensorflow/tensorflow/archive/refs/tags/v${TF_VERSION}.zip -O tensorflow.zip && \
     unzip tensorflow.zip && rm tensorflow.zip
-RUN cd tensorflow-2.10.0 && sh ./configure && \
+RUN cd tensorflow-${TF_VERSION} && sh ./configure && \
     bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package && \
     ./bazel-bin/tensorflow/tools/pip_package/build_pip_package /mnt && \
-    chown $HOST_PERMS /mnt/tensorflow-2.10.0.whl
+    chown $HOST_PERMS /mnt/tensorflow-${TF_VERSION}.whl
