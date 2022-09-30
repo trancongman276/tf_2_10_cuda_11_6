@@ -13,8 +13,10 @@ ARG TF_VERSION=2.10.0
 
 RUN wget https://github.com/tensorflow/tensorflow/archive/refs/tags/v${TF_VERSION}.zip -O tensorflow.zip && \
     unzip -q tensorflow.zip && rm tensorflow.zip
-RUN /tensorflow-${TF_VERSION}/configure 
 
-RUN bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package && \
+COPY ./tf_configure.bazelrc /tensorflow-${TF_VERSION}/.tf_configure.bazelrc
+
+RUN cd /tensorflow-${TF_VERSION} && \
+    bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package && \
     ./bazel-bin/tensorflow/tools/pip_package/build_pip_package /mnt && \
     chown $HOST_PERMS /mnt/tensorflow-${TF_VERSION}.whl
