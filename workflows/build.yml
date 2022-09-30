@@ -30,7 +30,7 @@ jobs:
         with:
           push: true
           context: .
-          tags: doku9652/tf_cuda:11.6.2-delve
+          tags: doku9652/tensorflow:2.10.0-cuda11.6.2
           build-args: |
             FLAVOR=runtime
       -
@@ -39,6 +39,6 @@ jobs:
         with:
           push: true
           context: .
-          tags: doku9652/tf_cuda:11.6.2-delve
+          tags: doku9652/tensorflow:2.10.0-cuda11.6.2
           build-args: |
             FLAVOR=devel
